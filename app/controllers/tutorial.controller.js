@@ -1,7 +1,7 @@
 import db from '../models'
 
 const Tutorial = db.tutorials
-const Op = db.Sequelize.Op
+const { Op } = db.Sequelize
 
 exports.create = (req, res) => {
   // Validate request
@@ -31,7 +31,18 @@ exports.create = (req, res) => {
 }
 
 exports.findAll = (req, res) => {
-  
+  const { title } = req.query
+  const condition = title ? { title: { [Op.like]: `%${title}%` } } : null
+
+  Tutorial.findAll({ where: condition })
+    .then((data) => {
+      res.send(data)
+    }).catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || 'Some error occurred while find all tutorials.',
+      })
+    })
 }
 
 exports.findOne = (req, res) => {
