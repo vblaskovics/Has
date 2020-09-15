@@ -1,8 +1,8 @@
-import express from 'express'
-import { json, urlencoded } from 'body-parser'
-import cors from 'cors'
-import db from './app/models'
-import tutorialRoutes from './app/routes/tutorial.routes'
+const express = require('express')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const db = require('./app/models')
+const tutorialRoutes = require('./app/routes/tutorial.routes')
 
 const app = express()
 
@@ -12,8 +12,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
-app.use(json())
-app.use(urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 db.sequelize.sync()
 

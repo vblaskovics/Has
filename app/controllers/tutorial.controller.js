@@ -1,9 +1,9 @@
-import db from '../models'
+const db = require('../models')
 
 const Tutorial = db.tutorials
 const { Op } = db.Sequelize
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request
   if (!req.body.title) {
     res.status(400).send({
@@ -19,15 +19,14 @@ exports.create = (req, res) => {
   }
 
   // Save tutorial in the database
-  Tutorial.create(tutorial)
-    .then((data) => {
-      res.send(data)
+  try {
+    const msg = await Tutorial.create(tutorial)
+    res.send(msg)
+  } catch (err) {
+    res.status(500).send({
+      message: err.message || 'Some error occurred while creating the Tutorial.',
     })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while creating the Tutorial.',
-      })
-    })
+  }
 }
 
 exports.findAll = (req, res) => {

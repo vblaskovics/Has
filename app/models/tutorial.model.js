@@ -1,4 +1,4 @@
-export default (sequelize, Sequelize) => {
+module.exports = (sequelize, Sequelize) => {
   const Tutorial = sequelize.define('tutorial', {
     title: {
       type: Sequelize.STRING,
