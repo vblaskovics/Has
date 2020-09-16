@@ -1,21 +1,12 @@
 const tutorialCrudService = require('../services/tutorial.crud.service')
 
 exports.create = async (req, res) => {
-  // Validate request
-  if (!req.body.title) {
-    res.status(400).send({
-      message: 'Content can not be empty',
-    })
-  }
-
-  // Create a tutorial
   const seed = {
     title: req.body.title,
     description: req.body.description,
     published: req.body.published ? req.body.published : false,
   }
 
-  // Save tutorial in the database
   try {
     const tutorial = await tutorialCrudService.create(seed)
     res.send(tutorial)
