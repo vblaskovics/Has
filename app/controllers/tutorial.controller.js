@@ -1,7 +1,5 @@
 const db = require('../models')
-
-const Tutorial = db.tutorials
-const { Op } = db.Sequelize
+const tutorialCrudService = require('../services/tutorial.crud.service')
 
 exports.create = async (req, res) => {
   // Validate request
@@ -12,7 +10,7 @@ exports.create = async (req, res) => {
   }
 
   // Create a tutorial
-  const tutorial = {
+  const seed = {
     title: req.body.title,
     description: req.body.description,
     published: req.body.published ? req.body.published : false,
@@ -20,28 +18,25 @@ exports.create = async (req, res) => {
 
   // Save tutorial in the database
   try {
-    const msg = await Tutorial.create(tutorial)
-    res.send(msg)
-  } catch (err) {
+    const tutorial = await tutorialCrudService.create(seed)
+    res.send(tutorial)
+  } catch (error) {
     res.status(500).send({
-      message: err.message || 'Some error occurred while creating the Tutorial.',
+      message: error.message || 'Some error occurred while creating the Tutorial.',
     })
   }
 }
 
-exports.findAll = (req, res) => {
-  const { title } = req.query
-  const condition = title ? { title: { [Op.like]: `%${title}%` } } : null
-
-  Tutorial.findAll({ where: condition })
-    .then((data) => {
-      res.send(data)
-    }).catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || 'Some error occurred while find all tutorials.',
-      })
+exports.findAll = async (req, res) => {
+  try {
+    const result = await tutorialCrudService.findAll()
+    res.send(result)
+  } catch (error) {
+    res.status(500).send({
+      message:
+        error.message || 'Some error occurred while find all tutorials.',
     })
+  }
 }
 
 exports.findOne = (req, res) => {
