@@ -1,8 +1,10 @@
 const router = require('express').Router()
-const tutorials = require('../controllers/tutorial.controller')
+const tutorials = require('../controllers/tutorial.crud.controller')
+const rules = require('./validators/tutorial.crud.rules')
+const validate = require('./validators/validate')
 
 module.exports = (app) => {
-  router.post('/', tutorials.create)
+  router.post('/', rules.create(), validate, tutorials.create)
 
   router.get('/', tutorials.findAll)
 

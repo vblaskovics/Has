@@ -1,4 +1,3 @@
-const db = require('../models')
 const tutorialCrudService = require('../services/tutorial.crud.service')
 
 exports.create = async (req, res) => {
@@ -28,8 +27,15 @@ exports.create = async (req, res) => {
 }
 
 exports.findAll = async (req, res) => {
+  // Validate request
+  if (!req.body.title) {
+    res.status(400).send({
+      message: 'Content can not be empty',
+    })
+  }
+
   try {
-    const result = await tutorialCrudService.findAll()
+    const result = await tutorialCrudService.findAll(req.body.title)
     res.send(result)
   } catch (error) {
     res.status(500).send({
