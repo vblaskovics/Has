@@ -1,10 +1,16 @@
 /* eslint import/no-extraneous-dependencies:off */
 const nodePlop = require('node-plop')
 
-const plop = nodePlop('./plopfile.js')
+const plop = nodePlop('./generator/plopfile.js')
 
-const basicAdd = plop.getGenerator('model')
+const modelGenerator = plop.getGenerator('model')
+const userSeed = require('./seeds/user.seed').getSeed()
 
-basicAdd.runActions({ name: 'modelName', content: 'This is the content' }).then(() => {
-  console.log('node-plop finished')
+modelGenerator.runActions({
+  name: `${userSeed.modelName}.model.js`,
+  seed: userSeed,
+}).then(() => {
+  console.log('user done')
+}).catch((err) => {
+  console.log(`plop error: ${err}`)
 })

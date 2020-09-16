@@ -5,11 +5,9 @@ module.exports = (plop) => {
     prompts: [{
       type: 'input',
       name: 'name',
-      message: 'What shoul be the model name?',
     }, {
       type: 'input',
-      name: 'content',
-      message: 'What shoul be the content?',
+      name: 'seed',
     }],
     actions: [{
       type: 'add',

@@ -1,3 +1,11 @@
-Hello {{name}}
+module.exports = (sequelize, Sequelize) => {
+  const {{seed.className}} = sequelize.define('{{seed.modelName}}', {
+  {{#each seed.fields}}
+    {{this.name}}: {
+      type: Sequelize.{{this.type}},
+    },
+  {{/each}}
+  })
 
-{{content}}
+  return {{seed.className}}
+}
