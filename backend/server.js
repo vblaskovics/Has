@@ -6,11 +6,7 @@ const tutorialRoutes = require('./app/routes/tutorial.routes')
 
 const app = express()
 
-const corsOptions = {
-  origin: 'http://localhost:8081',
-}
-
-app.use(cors(corsOptions))
+app.use(cors())
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
