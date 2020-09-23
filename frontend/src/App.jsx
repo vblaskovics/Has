@@ -1,26 +1,39 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-import axios from 'axios'
+import { makeStyles } from '@material-ui/core/styles'
+import {
+  AppBar, Toolbar, Button, Typography,
+} from '@material-ui/core'
 
-export default class PersonList extends React.Component {
-  state = {
-    msg: '',
-  }
+const useStyles = makeStyles({
+  rightToolbar: {
+    marginLeft: 'auto',
+    marginRight: -12,
+  },
+})
 
-  componentDidMount() {
-    axios.get('http://localhost:8080/')
-      .then((res) => {
-        this.setState({ msg: res.data.message })
-      })
-  }
+const App = () => {
+  const [msg, setMsg] = useState([])
+  const classes = useStyles()
 
-  render() {
-    const { msg } = this.state
-    return (
-      <div>
-        <h1>Welcome to Has Frontend!</h1>
-        <p>{ msg }</p>
-      </div>
-    )
-  }
+  useEffect(() => {
+    fetch('http://localhost:8080/')
+      .then((res) => res.json())
+      .then((res) => setMsg(res.message))
+  })
+
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6">
+          { msg }
+        </Typography>
+        <section className={classes.rightToolbar}>
+          <Button color="inherit">Login</Button>
+        </section>
+      </Toolbar>
+    </AppBar>
+  )
 }
+
+export default App
